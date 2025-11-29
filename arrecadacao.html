@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arrecadação</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Arrecadação / Doações</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="revistas.html">Revistas / Livros</a>
+        <a href="eventos.html">Próximos Eventos</a>
+        <a href="aniversariantes.html">Mural de Aniversariantes</a>
+        <a href="arrecadacao.html">Arrecadação / Doações</a>
+        <a id="logout" href="#">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Registrar doação</h2>
+        <form id="doacaoForm">
+          <input id="doador-nome" placeholder="Nome do doador" />
+          <input id="doacao-valor" type="number" placeholder="Valor (R$)" step="0.01" min="0" required />
+          <input id="doacao-data" type="date" required />
+          <button type="submit">Adicionar</button>
+        </form>
+
+        <table id="doacoes-table">
+          <thead><tr><th>Nome</th><th>Valor</th><th>Data</th><th>Ações</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer><small>Destinado a arrecadação para algum evento ou projeto da igreja</small></footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if(!app_isLoggedIn()) window.location.href = 'login.html';
+    document.getElementById('logout').addEventListener('click', function(e){ e.preventDefault(); app_logout(); window.location.href='login.html'; });
+  </script>
+</body>
+</html>

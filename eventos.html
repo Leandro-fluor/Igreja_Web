@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Próximos Eventos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Próximos Eventos</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="revistas.html">Revistas / Livros</a>
+        <a href="eventos.html">Próximos Eventos</a>
+        <a href="aniversariantes.html">Mural de Aniversariantes</a>
+        <a href="arrecadacao.html">Arrecadação / Doações</a>
+        <a id="logout" href="#">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Adicionar evento</h2>
+        <form id="eventoForm">
+          <input id="evento-titulo" placeholder="Título do evento" required />
+          <input id="evento-data" type="date" required />
+          <input id="evento-local" placeholder="Local" />
+          <button type="submit">Adicionar</button>
+        </form>
+
+        <ul id="eventos-list"></ul>
+      </section>
+    </main>
+
+    <footer><small>Renovar a lista dia 01 de cada mês</small></footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if(!app_isLoggedIn()) window.location.href = 'login.html';
+    document.getElementById('logout').addEventListener('click', function(e){ e.preventDefault(); app_logout(); window.location.href='login.html'; });
+  </script>
+</body>
+</html>

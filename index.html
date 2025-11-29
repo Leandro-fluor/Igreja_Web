@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portal - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Igreja Assembléia de Deus </h1>
+      <nav>
+        <a href="index.html">Inicío</a>
+        <a href="revistas.html">Revistas / Livros</a>
+        <a href="eventos.html">Próximos Eventos</a>
+        <a href="aniversariantes.html">Mural de Aniversariantes</a>
+        <a href="arrecadacao.html">Arrecadação / Doações</a>
+        <a id="logout" href="#">Sair</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section>
+        <h2>Bem-vindo</h2>
+        <p>Este site simples permite controlar cronogramas e um pequeno estoque de revistas, livros e Bíblias.</p>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <h3>Resumo rápido</h3>
+          <ul>
+            <li id="count-revistas">Revistas cadastradas: 0</li>
+            <li id="count-eventos">Próximos eventos: 0</li>
+            <li id="count-aniversariantes">Aniversariantes do mês: 0</li>
+            <li id="count-arrecadacao">Total arrecadado: R$ 0,00</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Ações rápidas</h3>
+          <p><a href="revistas.html">Gerenciar revistas / livros</a></p>
+          <p><a href="eventos.html">Adicionar evento</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Página inicial</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // redirect to login if not authenticated
+    if(!app_isLoggedIn()){
+      window.location.href = 'login.html';
+    }
+    document.getElementById('logout').addEventListener('click', function(e){
+      e.preventDefault();
+      app_logout();
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

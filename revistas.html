@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Revistas e Livros</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Revistas / Livros</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="revistas.html">Revistas / Livros</a>
+        <a href="eventos.html">Próximos Eventos</a>
+        <a href="aniversariantes.html">Mural de Aniversariantes</a>
+        <a href="arrecadacao.html">Arrecadação / Doações</a>
+        <a id="logout" href="#">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Estoque</h2>
+        <form id="revistaForm">
+          <input id="revista-titulo" placeholder="Título" required />
+          <input id="revista-autor" placeholder="Autor / Editora" />
+          <input id="revista-quant" type="number" placeholder="Quantidade" min="0" value="1" required />
+          <select id="revista-tipo">
+            <option value="revista">Revista</option>
+            <option value="livro">Livro</option>
+            <option value="biblia">Bíblia</option>
+          </select>
+          <button type="submit">Adicionar / Atualizar</button>
+        </form>
+
+        <table id="revistas-table">
+          <thead><tr><th>Título</th><th>Autor/Editora</th><th>Tipo</th><th>Qtd</th><th>Ações</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer><small>Dados salvos no navegador (localStorage).</small></footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if(!app_isLoggedIn()) window.location.href = 'login.html';
+    document.getElementById('logout').addEventListener('click', function(e){ e.preventDefault(); app_logout(); window.location.href='login.html'; });
+  </script>
+</body>
+</html>
