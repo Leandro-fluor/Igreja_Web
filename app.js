@@ -67,18 +67,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderHome(){
   const st = loadState();
+  
+  // Atualizar contadores
   document.getElementById('count-revistas').innerText = 'Revistas cadastradas: ' + st.revistas.length;
-  document.getElementById('count-eventos').innerText = 'Próximos eventos: ' + st.eventos.length;
-  // aniversariantes: those in same month as today
+  
+  // Contar apenas eventos futuros
   const hoje = new Date();
+  const eventosFuturos = st.eventos.filter(evento => new Date(evento.data) >= hoje).length;
+  document.getElementById('count-eventos').innerText = 'Próximos eventos: ' + eventosFuturos;
+  
+  // aniversariantes: those in same month as today
   const month = hoje.getMonth()+1;
   const aniversThisMonth = st.aniversariantes.filter(a => {
     const m = new Date(a.data).getMonth()+1;
     return m === month;
   }).length;
   document.getElementById('count-aniversariantes').innerText = 'Aniversariantes do mês: ' + aniversThisMonth;
+  
   const soma = st.doacoes.reduce((s,d)=>s+Number(d.valor||0),0);
   document.getElementById('count-arrecadacao').innerText = 'Total arrecadado: R$ ' + money(soma);
+}
+
+// Função para atualizar o resumo de qualquer página
+function updateHomeCounters(){
+  const st = loadState();
+  const hoje = new Date();
+  
+  // Atualizar apenas se os elementos existirem na página
+  const countRevistas = document.getElementById('count-revistas');
+  const countEventos = document.getElementById('count-eventos');
+  const countAnivers = document.getElementById('count-aniversariantes');
+  const countArrecadacao = document.getElementById('count-arrecadacao');
+  
+  if(countRevistas) countRevistas.innerText = 'Revistas cadastradas: ' + st.revistas.length;
+  
+  if(countEventos) {
+    const eventosFuturos = st.eventos.filter(evento => new Date(evento.data) >= hoje).length;
+    countEventos.innerText = 'Próximos eventos: ' + eventosFuturos;
+  }
+  
+  if(countAnivers) {
+    const month = hoje.getMonth()+1;
+    const aniversThisMonth = st.aniversariantes.filter(a => {
+      const m = new Date(a.data).getMonth()+1;
+      return m === month;
+    }).length;
+    countAnivers.innerText = 'Aniversariantes do mês: ' + aniversThisMonth;
+  }
+  
+  if(countArrecadacao) {
+    const soma = st.doacoes.reduce((s,d)=>s+Number(d.valor||0),0);
+    countArrecadacao.innerText = 'Total arrecadado: R$ ' + money(soma);
+  }
 }
 
 // Revistas
@@ -98,9 +138,8 @@ function setupRevistas(){
         </td>`;
       tbody.appendChild(tr);
     });
-    // update home counts if present
-    const count = document.getElementById('count-revistas');
-    if(count) count.innerText = 'Revistas cadastradas: ' + st.revistas.length;
+    // update home counts
+    updateHomeCounters();
   }
 
   form.addEventListener('submit', function(e){
@@ -163,8 +202,8 @@ function setupEventos(){
         <button data-idx="${idx}" class="del">Excluir</button>`;
       list.appendChild(li);
     });
-    const count = document.getElementById('count-eventos');
-    if(count) count.innerText = 'Próximos eventos: ' + st.eventos.length;
+    // update home counts
+    updateHomeCounters();
   }
 
   form.addEventListener('submit', function(e){
@@ -208,14 +247,8 @@ function setupAnivers(){
       li.innerHTML = `<strong>${p.nome}</strong> — ${formatDateISO(p.data)} <button data-idx="${idx}" class="del">Excluir</button>`;
       list.appendChild(li);
     });
-    const hoje = new Date();
-    const month = hoje.getMonth()+1;
-    const aniversThisMonth = st.aniversariantes.filter(a => {
-      const m = new Date(a.data).getMonth()+1;
-      return m === month;
-    }).length;
-    const count = document.getElementById('count-aniversariantes');
-    if(count) count.innerText = 'Aniversariantes do mês: ' + aniversThisMonth;
+    // update home counts
+    updateHomeCounters();
   }
 
   form.addEventListener('submit', function(e){
@@ -259,9 +292,8 @@ function setupDoacoes(){
         <td><button data-idx="${idx}" data-action="del">Excluir</button></td>`;
       tbody.appendChild(tr);
     });
-    const soma = st.doacoes.reduce((s,d)=>s+Number(d.valor||0),0);
-    const count = document.getElementById('count-arrecadacao');
-    if(count) count.innerText = 'Total arrecadado: R$ ' + money(soma);
+    // update home counts
+    updateHomeCounters();
   }
 
   form.addEventListener('submit', function(e){
@@ -291,3 +323,6 @@ function setupDoacoes(){
 
   render();
 }
+
+// Tornar a função global para ser acessível de qualquer lugar
+window.updateHomeCounters = updateHomeCounters;
